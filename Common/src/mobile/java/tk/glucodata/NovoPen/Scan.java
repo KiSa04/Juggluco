@@ -118,7 +118,8 @@ private static void changeTypeconfirmation(MainActivity act,String type,Runnable
 //static  public final DateFormat fhourmin=             new SimpleDateFormat("HH:mm", Locale.US);
 
 static void setInsulin(MainActivity context, OpContext op) {
-
+	SharedPreferences sharedPref = context.getSharedPreferences("MyPreferences", MODE_PRIVATE);
+	float ratio = sharedPref.getFloat("insulin_carb_ratio", 0.0f);
 	String serial=op.specification.getSerial();
 	final long typetime =novopentype(serial);
 	int type;
@@ -216,52 +217,153 @@ static void setInsulin(MainActivity context, OpContext op) {
 	int pad=(int)(10.0*density);
 	layout.setPadding(pad,pad,pad,(int)(density*14.0));
 
+	int let_keep = 0;
 	context.setonback(() -> removeContentView(layout) );
-	ok.setOnClickListener(v -> {
-			var doses=op.doses;
-			int ty=selected[0];
-			Runnable saveall=()-> {
-				int nr=0;
-				int lastdose=doses.size()-1;
-				for(int d=0;d<=lastdose;++d) {
-					var dose=doses.get(d);
-					int back=savenovopen(dose.referencetime,serial,ty,dose.rawdoses,d==lastdose);
-					if(back<0)  {
+		ok.setOnClickListener(v -> {
+
+			int doseType = selected[0];
+			int lastDoseIndex = op.doses.size() - 1;
+
+			Runnable saveAllDoses = () -> {
+				float savedRatio = sharedPref.getFloat("insulin_carb_ratio", 0.0f);
+				SharedPreferences prefs = context.getSharedPreferences("DosingMap", Context.MODE_PRIVATE);
+				long lastSavedTimestamp = prefs.getLong("last_dose_timestamp", 0);
+				long lastSavedTimestamp_get = prefs.getLong("last_dose_timestamp", 0);
+				int savednr = 0;
+				for (int i = 0; i <= lastDoseIndex; i++) {
+					var dose = op.doses.get(i);
+
+					// Define additional variables as needed
+					long now = System.currentTimeMillis() / 1000; // Current time in seconds
+					long old = now - 100 * 24 * 60 * 60; // 100 days ago in seconds
+					boolean used = false;
+					long nexttime = 0;
+
+					for (int a = 0; a < dose.rawdoses.length; a += 12) {
+						Dose dosed = parseDose(dose.rawdoses, a);
+
+						if (dosed.rightsign()) {
+							long time = dose.referencetime + dosed.getRelTime(); // Calculate timestamp
+							float value = dosed.getValue();
+
+							// Log dose information for debugging
+							System.out.println("dose: " + value + ", time: " + new Date(time * 1000));
+
+							// Check if the time is within valid range
+							if (time < old || time > now) {
+								System.out.println("Invalid time=" + time);
+								continue;
+							}
+
+							// Skip high dose values
+							if (value > 60) {
+								System.out.println("Skipping high dose value: " + value);
+								continue;
+							}
+
+							// Check for prime dose
+							if (used && value <= 2.0f && (nexttime - time) < 60) {
+								System.out.println("Prime dose detected, skipping");
+								continue;
+							}
+
+							// Check for duplicates
+							if (time <= lastSavedTimestamp) {
+								System.out.println("Duplicate detected, skipping");
+								continue;
+							}
+
+							if (time > lastSavedTimestamp_get)
+							{
+								lastSavedTimestamp_get = time; //it will always be the first dose of the array, but check it anyway
+							}
+							else {
+								Natives.saveNum(numio.numptrs[1], time, value, doseType, 1); 
+								//you are supposed to scan the pen everytime you do a correction dose, so the last dose (correction) is saved without carbs, but the previous ones 
+								//are presumed to be bolus, so the equivalent in carbs is saved  
+							}
+							// Proceed to save the new dose
+							System.out.println("Time: " + time + " Last Timestamp: " + lastSavedTimestamp);
+							// Applic.Toaster(String.valueOf(value)); // Uncomment if you want to show a toast
+
+							// Save the dose
+							
+							if(true) {
+								Natives.saveNum(numio.numptrs[1], time, value * savedRatio, 1, 1);
+							}
+							System.out.println("Saved dose value: " + value + ", time: " + time);
+							savednr++;
+							nexttime = time; // Update next time for prime detection
+
+							used = true; // Mark as used after saving a dose
+						}
+					}
+					// Update the saved timestamp in SharedPreferences
+					System.out.println("RefTime: " + lastSavedTimestamp_get);
+					SharedPreferences.Editor editor = prefs.edit();
+					editor.putLong("last_dose_timestamp", lastSavedTimestamp_get);
+					editor.apply();
+
+
+					//Applic.Toaster(Arrays.toString(dose.rawdoses));
+					//int result = savenovopen(dose.referencetime, serial, doseType, dose.rawdoses, i == lastDoseIndex, ratio, 0);
+					/*Object result = savenovopen(dose.referencetime, serial, doseType, dose.rawdoses, i == lastDoseIndex, ratio, 0);
+					ArrayList<Natives.DoseData> savedDoses = new ArrayList<>();
+					if (result instanceof ArrayList) {
+						savedDoses = (ArrayList<Natives.DoseData>) result;
+						// Proceed with savedDoses as expected
+					} else {
+						Applic.Toaster("Unexpected result type from savenovopen.");
+					}
+
+
+					if (savedDoses != null && !savedDoses.isEmpty()) {
+						for (Natives.DoseData savedDose : savedDoses) {
+							float value = savedDose.value;
+							long time = savedDose.time;
+							Applic.Toaster("Dose value: " + value + ", Time: " + time);
+						}
+						totalDosesSaved += savedDoses.size();
+					} else {
+						Applic.Toaster(context.getString(R.string.error));
+					}*/
+
+					/*if (savedDoses == null || savedDoses.isEmpty()) {
 						Applic.Toaster(context.getString(R.string.wentwrong));
 						context.doonback();
 						return;
-						}
-					else
-						nr+=back;
-					}
-				Applic.Toaster(nr+(nr==1?context.getString(R.string.dosis):context.getString(R.string.doses))+context.getString(R.string.saved));
-				if(nr>0) context.requestRender();
-				context.doonback();
-				};
-			Runnable testtype=() -> {
-				if(ty==type) {
-					saveall.run();
-					}
-				else {
-					changeTypeconfirmation(context,labels.get(ty), saveall);
-					}
-				};
-			if(lasttime==newtime[0]) {
-				testtype.run();
+					}*/
 				}
-			else {
-				setnovopenttimeandtype(newtime[0],ty,serial);
-				if(lasttime<newtime[0]) {
-					testtype.run();
-					}
-				else {
+
+				/*Applic.Toaster(totalDosesSaved + (totalDosesSaved == 1 ? context.getString(R.string.dosis) : context.getString(R.string.doses)) + context.getString(R.string.saved));
+				if (totalDosesSaved > 0) */
+				context.requestRender();
+				context.doonback();
+				Applic.Toaster(savednr + " doses saved");
+			};
+
+			Runnable verifyAndSave = () -> {
+				if (doseType == type) {
+					saveAllDoses.run();
+				} else {
+					changeTypeconfirmation(context, labels.get(doseType), saveAllDoses);
+				}
+			};
+
+			if (lasttime == newtime[0]) {
+				verifyAndSave.run();
+			} else {
+				setnovopenttimeandtype(newtime[0], doseType, serial);
+				if (lasttime < newtime[0]) {
+					verifyAndSave.run();
+				} else {
 					context.doonback();
 					earlytimeconfirmation(context);
-					}
 				}
 			}
-			);
-	cancel.setOnClickListener(v -> context.doonback());
+		});
+
+		cancel.setOnClickListener(v -> context.doonback());
         context.addContentView(layout, new ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 
 	}

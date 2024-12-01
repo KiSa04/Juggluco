@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -90,9 +91,10 @@ View newnumview=null;
 Button deletebutton, savebutton ;
 long currentnum=0L;
 Spinner spinner;
-EditText valueedit;
+EditText valueedit,ratioInput;
 TextView source=null;
 Button timebutton,datebutton;
+android.widget.CheckBox autobutton;
 void deleteviews() {
 	closenumview();
 	spinner=null;
@@ -182,12 +184,18 @@ public static String minhourstr(long mmsec) {
    }
 public   View addnumberview(MainActivity context,final int bron,final long time,final float value,final int type,final int tmpmealptr) {
     if(newnumview==null) {
+	SharedPreferences sharedPref = context.getSharedPreferences("MyPreferences", MODE_PRIVATE);
+	float savedRatio = sharedPref.getFloat("insulin_carb_ratio", 0.0f); //insulin ratio input text
         datebutton = new Button(context);
         datebutton.setOnClickListener(
                 v -> getdateview(context));
 	source=new TextView(context);
         dateview=datebutton;
         timebutton = new Button(context);
+	ratioInput = new EditText(context);
+	ratioInput.setText(String.valueOf(savedRatio));
+	autobutton = new CheckBox(context); //do you want to save the carb intake based on insulin doses?
+	autobutton.setChecked(true);
 
         timeview=timebutton;
 	mealbutton=getbutton(context,R.string.mealname);
@@ -219,7 +227,7 @@ public   View addnumberview(MainActivity context,final int bron,final long time,
 		helpbutton=getbutton(context,R.string.helpname);
 		helpbutton.setOnClickListener(v-> help.help(R.string.newamount,context));
 		}
-        Layout layout = isWearable?new Layout(context,new View[] {source},new View[]{datebutton,timebutton} ,new View[]{getspinner(context), valueedit}, new View[]{messagetext,savebutton,deletebutton},new View[]{cancel}):new Layout(context, (lay, w, h) -> {
+        Layout layout = isWearable?new Layout(context,new View[] {source},new View[]{datebutton,timebutton} ,new View[]{getspinner(context), valueedit}, new View[]{messagetext,savebutton,deletebutton,ratioInput,autobutton},new View[]{cancel}):new Layout(context, (lay, w, h) -> {
 		int wid=GlucoseCurve.getwidth()- systembarRight;
 		if(!smallScreen) {
 			Log.i(LOG_ID,"no smallScreen");
@@ -269,7 +277,7 @@ public   View addnumberview(MainActivity context,final int bron,final long time,
           lay.setY(MainActivity.systembarTop*3/4);
 			}
 
-			return new int[] {w,h}; },new View[]{helpbutton,getspinner(context), valueedit},new View[]{datebutton, mealbutton,source,timebutton},new View[]{cancel,messagetext,deletebutton, savebutton});
+			return new int[] {w,h}; },new View[]{helpbutton,getspinner(context), valueedit},new View[]{datebutton, mealbutton,source,timebutton,ratioInput,autobutton},new View[]{cancel,messagetext,deletebutton, savebutton});
 
         timebutton.setOnClickListener(
                 v -> {
@@ -313,6 +321,26 @@ public   View addnumberview(MainActivity context,final int bron,final long time,
 		MainActivity act=(MainActivity)v.getContext();
 		GlucoseCurve.reopener();
 		if(saveamount(act,timeview,  valueedit,newmealptr[0],lasttime)) {
+			if(autobutton.isChecked() && (labelsel==0||labelsel==1) && !valueedit.getText().toString().equals("")) {
+				EditText nvalueedit = geteditview(context,new editfocus());
+				String ratioString = ratioInput.getText().toString();
+				float ratio = ratioString.isEmpty() ? 0.0f : Float.parseFloat(ratioString);
+				String text_calc = new String();
+				switch(labelsel) {
+					case 0:
+						labelsel++;
+						text_calc = String.valueOf(Integer.parseInt(valueedit.getText().toString())*ratio);
+					case 1:
+						labelsel--;
+						float pre_calc = Math.round(Integer.parseInt(valueedit.getText().toString())/ratio* 2) / 2.0f;
+						text_calc = String.format("%.1f", pre_calc);
+				}
+				nvalueedit.setText(text_calc);
+				saveamount(act, timeview, nvalueedit, newmealptr[0], lasttime);
+				SharedPreferences.Editor editor = sharedPref.edit();
+				editor.putFloat("insulin_carb_ratio", ratio);
+				editor.apply();
+			}	
 			if(mealview[0]!=null) {
 				removeContentView(mealview[0]);
 				mealview[0]=null;

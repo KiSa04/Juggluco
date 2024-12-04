@@ -1,0 +1,4 @@
+C:/Users/da/Downloads/Juggluco-primary/Common/.cxx/Debug/31656n2h/x86/CMakeFiles/g.dir
+C:/Users/da/Downloads/Juggluco-primary/Common/.cxx/Debug/31656n2h/x86/CMakeFiles/libnative.so.dir
+C:/Users/da/Downloads/Juggluco-primary/Common/.cxx/Debug/31656n2h/x86/CMakeFiles/edit_cache.dir
+C:/Users/da/Downloads/Juggluco-primary/Common/.cxx/Debug/31656n2h/x86/CMakeFiles/rebuild_cache.dir

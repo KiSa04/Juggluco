@@ -1,0 +1,49 @@
+{
+  "buildFiles": [
+    "C:\\Users\\da\\Downloads\\Juggluco-primary\\Common\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\da\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\da\\Downloads\\Juggluco-primary\\Common\\.cxx\\Debug\\582t3u37\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\da\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\da\\Downloads\\Juggluco-primary\\Common\\.cxx\\Debug\\582t3u37\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "g::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "g",
+      "output": "C:\\Users\\da\\Downloads\\Juggluco-primary\\Common\\build\\intermediates\\cxx\\Debug\\582t3u37\\obj\\x86\\libg.so",
+      "runtimeFiles": []
+    },
+    "libnative.so::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "x86",
+      "artifactName": "libnative.so",
+      "output": "C:\\Users\\da\\Downloads\\Juggluco-primary\\Common\\build\\intermediates\\cxx\\Debug\\582t3u37\\obj\\x86\\libnative.so",
+      "runtimeFiles": [
+        "C:\\Users\\da\\Downloads\\Juggluco-primary\\Common\\build\\intermediates\\cxx\\Debug\\582t3u37\\obj\\x86\\libg.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "C:\\Users\\da\\AppData\\Local\\Android\\Sdk\\ndk\\28.0.12433566\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Users\\da\\AppData\\Local\\Android\\Sdk\\ndk\\28.0.12433566\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

@@ -342,6 +342,7 @@
  <string name="mgdL">mg/dL</string>
  <string name="interval">Interval</string>
  <string name="off">Off</string>
+ <string name="shortoff">Off</string>
  <string name="streamingenabled">" Streaming enabled"</string>
  <string name="streamingnotenabled">" Streaming not enabled"</string>
     <string name="everSensebroadcast">EverSense</string>
@@ -362,4 +363,7 @@
    <string name="photomessage">Scan the data matrix of a Dexcom G7 or Chinese market Sibionics sensor.</string>
    <string name="exchanges">Exchange data</string>
    <string name="dexfuture">Predict (Dexcom)</string>
+   <string name="initializing">Initializing</string> 
+   <string name="startjuggluco">Juggluco running on phone?\n\nWIFI and Bluetooth enabled?</string> 
+   <string name="connected">Connected!</string> 
 </resources>

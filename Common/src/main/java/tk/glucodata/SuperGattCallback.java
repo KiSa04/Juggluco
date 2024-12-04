@@ -57,6 +57,7 @@ public static boolean doGadgetbridge=false;
 	private static final String LOG_ID="SuperGattCallback";
 	static final private int  use_priority=CONNECTION_PRIORITY_HIGH;
 	static  boolean autoconnect=false;
+	String mDeviceName=null;
 
 		 protected static final UUID mCharacteristicConfigDescriptor = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
@@ -437,6 +438,8 @@ public void searchforDeviceAddress() {
 				Log.d(LOG_ID, SerialNumber + " cb.mBluetoothGatt!=null");
 				return;
 				} 
+			mDeviceName=device.getName();
+         Log.i(LOG_ID,"deviceName="+mDeviceName);
 				if (tk.glucodata.Log.doLog) {
 					Log.d(LOG_ID, SerialNumber + " Try connection to " + device.getAddress());
 					}
@@ -562,6 +565,18 @@ public UUID getService()  {
    }
 public void bonded()  {
    }
-
+public String mygetDeviceName() {
+	if(mDeviceName!=null)
+	   return mDeviceName;
+   final var device= mActiveBluetoothDevice;
+   if(device!=null) {
+      var name=device.getName();
+      if(name!=null)
+         return name;
+      }
+	if(mActiveDeviceAddress !=null)
+	   return mActiveDeviceAddress;
+	return "?";
+	}
 
 }

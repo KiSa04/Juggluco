@@ -12,7 +12,7 @@
     <string name="error_nfc_disabled">NFC wyłączone, można je włączyć w ustawieniach.</string>
 
    <string name="kerfstok_missing_title">Kerfstok nie jest zainstalowany na zegarku</string>
-    <string name="kerfstok_missing_message">Kerfstok nie jest zainstalowany na zegarku. Można go pobrać ze sklepu Garmin connect IQ</string>
+    <string name="kerfstok_missing_message">Kerfstok nie jest zainstalowany na zegarku. Można go pobrać ze sklepu Garmin Connect IQ</string>
 
 
     <string name="alarm_description">Zbyt niski lub wysoki poziom glukozy</string>
@@ -90,7 +90,7 @@
  <string name="numberlabels">Etykiety wart. liczb.</string>
  <string name="colors">Kolory</string>
  <string name="remindersname">Przypomnienia</string>
- <string name="display">Wyświetl</string>
+ <string name="display">Ekran</string>
  <string name="shutcuts">Skróty</string>
  <string name="advanced">Zaawansowane</string>
  <string name="newname">Nowy wpis</string>
@@ -170,9 +170,9 @@
  <string name="withoutsensor">Bez sensora</string>
  <string name="wronglibrary">Biblioteka nie działa prawidłowo, spróbuj innej</string>
  <string name="installedlibrary">Zainstalowana biblioteka</string>
- <string name="cantextract">Nie można wyodrębnić %s, spróbuj innego apk</string>
- <string name="connectwithsensor">Naciśnij, by połączyć się z sensorem</string>
- <string name="exchangedata">Naciśnij, by zacząć przesył danych</string>
+ <string name="cantextract">Nie można wyodrębnić %s, spróbuj innego pliku apk</string>
+ <string name="connectwithsensor">Łączenie z sensorem</string>
+ <string name="exchangedata">Przesył danych</string>
  <string name="nonewvalue">&quot;Brak nowej wartości od &quot;</string>
  <string name="lowglucose">&quot; Hipoglikemia!&quot;</string>
  <string name="highglucose">&quot; Hiperglikemia!&quot;</string>
@@ -209,7 +209,7 @@
  <string name="wakelock">Wakelock</string>
  <string name="wifi">Wifi</string>
  <string name="heartrate">Tętno</string>
- <string name="xdripbroadcast">Nadawaj zamiast xDrip</string>
+ <string name="xdripbroadcast">Transm. jak z xDrip</string>
  <string name="sensorpermission">Uprawnienie do dostępu do czujników potrzebne do wyświetlania tętna.</string>
  <string name="sensorpermissionmessage">Ustaw je w Ustawieniach urządzenia, Aplikacje, Uprawnienia, Juggluco</string>
  <string name="floatglucose">Pływ. gluk.</string>
@@ -335,14 +335,35 @@
     <string name="sendfrom">&quot;Wysyłaj od: &quot;</string>
  <string name="changestartbutton">Zmień początek</string>
  <string name="floatjuggluco">Wyżej</string>
- <string name="uploader">Uploader</string>
+ <string name="uploader">Przesył do NS</string>
+ <string name="upload">Prześlij</string>
  <string name="sibionics">Sibionics</string>
  <string name="mmolL">mmol/L</string>
  <string name="mgdL">mg/dL</string>
  <string name="interval">Przerwa</string>
  <string name="off">Wyłącz</string>
+ <string name="shortoff">Wył</string>
  <string name="streamingenabled">&quot; Przesył strumienia aktywny&quot;</string>
  <string name="streamingnotenabled">&quot; Przesył strumienia nieaktywny&quot;</string>
     <string name="everSensebroadcast">EverSense</string>
  <string name="threshold">Próg</string>
+ <string name="untouchablequestion">Pływająca glukoza ma być niedotykalna?</string>
+
+ <string name="hour12">12h</string>
+<string name="complications">Komplikacje</string>
+    <string name="colors_style_setting_description">Kolor tarczy zegarka</string>
+   <string name="glucosenumbercomplicationlabel">Wartość glukozy</string>
+   <string name="glucosearrowcomplicationlabel">Strzałka glukozy</string>
+   <string name="glucosearrowvaluecomplicationlabel">Wartość + strzałka</string>
+   <string name="text">Tekst</string>
+   <string name="arrow">Strzałka</string>
+   <string name="notalldata">OSTRZEŻENIE: Opcja &quot;Odbieraj&quot; nie jest włączona bez wysyłania wszystkich danych.</string>
+<string name="libresetalllabels">Opcję &quot;Wysyłaj wartości&quot; można zaznaczyć dopiero po określeniu, co należy zrobić z każdą etykietą.</string>
+   <string name="photo">Zeskanuj kod</string>
+   <string name="photomessage">Zeskanuj kod QR sensora Dexcom G7 lub chińskiego sensora Sibionics.</string>
+   <string name="exchanges">Przesył danych</string>
+   <string name="dexfuture">Przewidywanie (Dexcom)</string>
+   <string name="initializing">Uruchomienie</string> 
+   <string name="startjuggluco">Juggluco uruchomione na telefonie?\n\nWIFI i Bluetooth włączone?</string> 
+   <string name="connected">Połączono!</string>
 </resources>

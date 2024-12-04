@@ -1,0 +1,20 @@
+                        -HC:\Users\da\Downloads\Juggluco-primary\Common\src\main\cpp
+-DCMAKE_SYSTEM_NAME=Android
+-DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+-DCMAKE_SYSTEM_VERSION=26
+-DANDROID_PLATFORM=android-26
+-DANDROID_ABI=x86
+-DCMAKE_ANDROID_ARCH_ABI=x86
+-DANDROID_NDK=C:\Users\da\AppData\Local\Android\Sdk\ndk\28.0.12433566
+-DCMAKE_ANDROID_NDK=C:\Users\da\AppData\Local\Android\Sdk\ndk\28.0.12433566
+-DCMAKE_TOOLCHAIN_FILE=C:\Users\da\AppData\Local\Android\Sdk\ndk\28.0.12433566\build\cmake\android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=C:\Users\da\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe
+-DCMAKE_CXX_FLAGS= -DAPPID="quotes(tk.glucodata)"   -DAPPVERSION="quotes(8.2.1)"     -DSIBIONICS=1   -DWEAROS=1  -DUSEDIN=1    -std=gnu++26 -DRELEASEID=1 -DDEBUG=1 -DSCANLOG=1 -DRELEASEDIR=1
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\Users\da\Downloads\Juggluco-primary\Common\build\intermediates\cxx\Debug\1s5g5r15\obj\x86
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=C:\Users\da\Downloads\Juggluco-primary\Common\build\intermediates\cxx\Debug\1s5g5r15\obj\x86
+-DCMAKE_BUILD_TYPE=Debug
+-BC:\Users\da\Downloads\Juggluco-primary\Common\.cxx\Debug\1s5g5r15\x86
+-GNinja
+-DWEAROS=TRUE
+                        Build command args: []
+                        Version: 2
